@@ -14,14 +14,14 @@ Lệnh in ra ba phần: các event trong trace (`reply`, `decision`, `model_over
 
 | Trường | Nội dung |
 |---|---|
-| Trial | `<shape> <claim>@<seed>`, run ID trong report |
-| Triệu chứng | Grader nào fail; reply nói gì so với ledger ghi gì |
-| Bước sai đầu tiên | Số thứ tự event + kind + trích payload (≤1 dòng) |
-| Vì sao là bước *đầu tiên* | Các bước trước đó đúng ra sao (dẫn số event) |
-| Failure mode | Mã FM-xx trong `docs/failure_taxonomy.md` |
-| Đối chứng | Cùng claim@seed trên shape `fixed`: bước đó khác thế nào |
-| Regression test | Tên test + grader/assert nào bắt được; đã thấy fail trên variant lỗi và pass trên `fixed` chưa |
-| Chưa chắc chắn | Điều trace không chứng minh được |
+| Trial | `seeded_regression C-002@11`; report `E-seeded_regression-20261117-91ab` trong `reports/eval_seeded_regression.json` |
+| Triệu chứng | Grader Lab 8: `FAIL (status resolved != denied)`. Reply báo đã hoàn 20.000đ; ledger ghi 20.000đ và 1 refund, trong khi nhãn yêu cầu `denied`, 0đ, 0 refund. Reply khớp ledger nhưng cả hai sai nhãn. |
+| Bước sai đầu tiên | Event 3: `model_override {"delay_days": 5}`. |
+| Vì sao là bước *đầu tiên* | Event 1 `handoff` chỉ cấp tool đọc; event 2 `investigator` tra order O-202, DB ghi `delay_days=2`. Event 3 thay dữ kiện này bằng số ngày do ticket nói; event 4 mới tạo quote 20.000đ. |
+| Failure mode | FM-03 `ticket_trust`; hậu quả là refund sai. |
+| Đối chứng | `fixed C-002@11` không có `model_override`; event 3 là quote 0đ `no_entitlement`, event 4 reply từ chối. Ledger 0đ/0 refund và grader Lab 8 PASS. |
+| Regression test | `tests/test_lab9_trace_case_regression.py`: cùng claim/seed, xác nhận variant lỗi có override đầu tiên ở event 3 và fail nhãn; `fixed` không override, đúng ledger/nhãn và pass. |
+| Chưa chắc chắn | Trace chỉ chứng minh đường chạy MockLLM cho claim/seed này; không chứng minh tỷ lệ lỗi trên người dùng hay model thật. |
 
 ## Quy tắc
 
