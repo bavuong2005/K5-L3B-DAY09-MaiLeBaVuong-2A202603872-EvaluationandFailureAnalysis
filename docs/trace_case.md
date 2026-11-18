@@ -14,7 +14,7 @@ Lệnh in ra ba phần: các event trong trace (`reply`, `decision`, `model_over
 
 | Trường | Nội dung |
 |---|---|
-| Trial | `seeded_regression C-002@11`; report `E-seeded_regression-20261117-91ab` trong `reports/eval_seeded_regression.json` |
+| Trial | `seeded_regression C-002@11`; report `E-seeded_regression-20261118-91ab` trong `reports/eval_seeded_regression.json` |
 | Triệu chứng | Grader Lab 8: `FAIL (status resolved != denied)`. Reply báo đã hoàn 20.000đ; ledger ghi 20.000đ và 1 refund, trong khi nhãn yêu cầu `denied`, 0đ, 0 refund. Reply khớp ledger nhưng cả hai sai nhãn. |
 | Bước sai đầu tiên | Event 3: `model_override {"delay_days": 5}`. |
 | Vì sao là bước *đầu tiên* | Event 1 `handoff` chỉ cấp tool đọc; event 2 `investigator` tra order O-202, DB ghi `delay_days=2`. Event 3 thay dữ kiện này bằng số ngày do ticket nói; event 4 mới tạo quote 20.000đ. |
