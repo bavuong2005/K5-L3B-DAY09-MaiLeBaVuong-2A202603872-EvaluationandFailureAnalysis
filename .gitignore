@@ -1,13 +1,23 @@
-__pycache__/
-*.pyc
-src/reports/
-src/traces/
-*.sqlite
+# Secrets
 .env
 .env.*
 !.env.example
+
+# Python / OS
 .venv/
 venv/
+__pycache__/
+*.py[cod]
 .pytest_cache/
+.DS_Store
+
+# Runtime output. Commit grading reports with: git add -f reports/*.json
+src/reports/
+traces/
+src/traces/
+*.sqlite
+*.sqlite-*
 student_drop/
+
+# Instructor-only hidden pack from Day 8. Never push it.
 src/eval/instructor/
