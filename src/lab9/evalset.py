@@ -52,7 +52,11 @@ def load_jsonl(path: Path) -> list[dict[str, Any]]:
 
 
 def sha12(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()[:12]
+    # Windows checkouts may use CRLF while GitHub Actions uses LF. Hash the
+    # same canonical CRLF bytes on both platforms so one eval set has one ID.
+    data = path.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    canonical = data.replace(b"\n", b"\r\n")
+    return hashlib.sha256(canonical).hexdigest()[:12]
 
 
 def build(source: Path = SOURCE) -> tuple[int, int]:
